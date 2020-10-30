@@ -419,7 +419,7 @@ For example:
     . .venv/bin/activate
 
     # install dndme
-    pip install -e .[dev,test]
+    pip install -e . [dev,test]
 
     # install pre-commit hooks
     pre-commit install
