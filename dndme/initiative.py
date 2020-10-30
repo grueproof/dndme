@@ -28,6 +28,8 @@ class TurnManager:
         self.initiative = defaultdict(list)
         self.round_number = 0
         self.cur_turn = None
+        self.previous_turns = []
+        self.next_turns = []
 
     def add_combatant(self, combatant, initiative_roll):
         for combatants in self.initiative.values():
@@ -58,10 +60,10 @@ class TurnManager:
         if None in [c1_init, c2_init, c1_i, c2_i]:
             raise Exception("Could not find one or more combatants")
 
-        self.initiative[c1_init][c1_i], \
-                self.initiative[c2_init][c2_i] = \
-                self.initiative[c2_init][c2_i], \
-                self.initiative[c1_init][c1_i]
+        self.initiative[c1_init][c1_i], self.initiative[c2_init][c2_i] = (
+            self.initiative[c2_init][c2_i],
+            self.initiative[c1_init][c1_i],
+        )
 
     def move(self, combatant, initiative_roll):
         for combatants in self.initiative.values():

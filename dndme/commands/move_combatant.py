@@ -3,7 +3,7 @@ from dndme.commands import Command
 
 class MoveCombatant(Command):
 
-    keywords = ['move']
+    keywords = ["move"]
     help_text = """{keyword}
 {divider}
 Summary: Move a combatant to a different initiative value.
@@ -40,3 +40,4 @@ Example: {keyword} Frodo 12
 
         combat.tm.move(target, new_initiative)
         print(f"Okay; moved {name} to {new_initiative}.")
+        self.game.changed = True

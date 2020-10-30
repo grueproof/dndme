@@ -2,9 +2,9 @@ import re
 from dndme.commands import Command
 
 
-class Clock(Command):
+class AdjustClock(Command):
 
-    keywords = ['clock', 'time']
+    keywords = ["clock", "time"]
     help_text = """{keyword}
 {divider}
 Summary: Set, adjust, or check the in-game time.
@@ -39,40 +39,45 @@ Suggestions:
     * 200 ft movement in a dungeon (slow) per 10 minutes. This
             allows characters to keep a simple map of where they are
             (if they want).
-    
+
 Cited from https://rpg.stackexchange.com/questions/55461/how-to-handle-time-in-dd-5e
 """
 
     def do_command(self, *args):
         if not args:
             print(f"Game time is {self.game.clock}")
-        
+
         if not args:
             return
 
-        m = re.match('([+-]?)(\d{1,2}):(\d{1,2})', args[0])
+        m = re.match("([+-]?)(\d{1,2}):(\d{1,2})", args[0])
         if not m:
             print("Invalid time or time adjustment")
             return
-        
+
         (sign, hours, minutes) = m.groups()
         hours, minutes = int(hours), int(minutes)
 
         if not sign:
 
-            if hours < 0 or hours >= self.game.clock.hours_in_day or \
-                    minutes < 0 or minutes >= self.game.clock.minutes_in_hour:
+            if (
+                hours < 0
+                or hours >= self.game.clock.hours_in_day
+                or minutes < 0
+                or minutes >= self.game.clock.minutes_in_hour
+            ):
                 print("Invalid time")
                 return
 
             self.game.clock.hour = hours
             self.game.clock.minute = minutes
-        
+
         else:
-            if sign == '-':
+            if sign == "-":
                 hours = -hours
                 minutes = -minutes
 
             self.game.clock.adjust_time(hours, minutes)
-        
+
         print(f"Okay; game time is now {self.game.clock}")
+        self.game.changed = True

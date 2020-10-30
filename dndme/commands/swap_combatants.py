@@ -3,7 +3,7 @@ from dndme.commands import Command
 
 class SwapCombatants(Command):
 
-    keywords = ['swap']
+    keywords = ["swap"]
     help_text = """{keyword}
 {divider}
 Summary: Swap two combatants in turn order.
@@ -41,3 +41,4 @@ Example: {keyword} Sam Frodo
 
         combat.tm.swap(combatant1, combatant2)
         print(f"Okay; swapped {name1} and {name2}.")
+        self.game.changed = True
